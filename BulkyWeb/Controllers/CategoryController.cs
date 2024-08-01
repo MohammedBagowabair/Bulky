@@ -25,10 +25,10 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("name", "Name Cannot Exactly Same The Display Order");
-            }
+            //if (obj.Name == obj.DisplayOrder.ToString())
+            //{
+            //    ModelState.AddModelError("name", "Name Cannot Exactly Same The Display Order");
+            //}
             if (ModelState.IsValid)
             {
                 db.Categories.Add(obj);
