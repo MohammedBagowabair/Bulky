@@ -12,7 +12,7 @@
             <div class="col-6">
             </div>
             <div class="col-6 text-end">
-                <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
+                <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Create New Product
                 </a>
             </div>
@@ -22,14 +22,10 @@
             <thead>
                 <tr>
                     <th>Title</th>
-@*                     <th>Description</th>
- *@                    <th>ISBN</th>
+                    <th>ISBN</th>
                     <th>Author</th>
-@*                     <th>ListPrice</th>
- *@                    <th>Price</th>
-                   @*  <th>Price50</th>
-                    <th>Price100</th> *@
-                    <th> Category</th>
+                   <th>Price</th>
+                   <th> Category</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,19 +33,16 @@
                 {
                     <tr>
                         <td>@obj.Title</td>
-@*                         <td>@obj.Description</td>
- *@                        <td>@obj.ISBN</td>
+                        <td>@obj.ISBN</td>
                         <td>@obj.Author</td>
-@*                         <td>@obj.ListPrice</td>
- *@                        <td>@obj.Price</td>
-                       @*  <td>@obj.Price50</td>
-                        <td>@obj.Price100</td> *@
+                         <td>@obj.Price</td>
+                      
 
                         <td></td>
 
                         <td>
                             <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-success mx-2">
+                                <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-success mx-2">
                                     <i class="bi bi-pencil-square"></i>Edit
 
                                 </a>
