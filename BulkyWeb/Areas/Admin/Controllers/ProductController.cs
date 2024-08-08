@@ -27,7 +27,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return View(objProductsList);
         }
 
-        public IActionResult Upsert(int ? id)
+        public IActionResult Upsert(int? id)
         {
 
             ProductVM productVM = new()
@@ -41,27 +41,27 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 })
             };
 
-            if(id==0 || id == null)
+            if (id == 0 || id == null)
             {
                 return View(productVM);
             }
             else
             {
-                productVM.Product= _unitOfWork.Product.Get(u => u.Id == id);
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
                 return View(productVM);
             }
-           
+
         }
         [HttpPost]
-        public IActionResult Upsert(ProductVM obj,IFormFile ? file)
+        public IActionResult Upsert(ProductVM obj, IFormFile? file)
         {
-            
+
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file!= null)
+                if (file != null)
                 {
-                    string fileName =  Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     var productPath = Path.Combine(wwwRootPath, @"image\product");
                     if (!string.IsNullOrEmpty(obj.Product.ImageUrl))
                     {
@@ -74,7 +74,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                             System.IO.File.Delete(oldImagePath);
                         }
                     }
-                    using (var fileStream = new FileStream(Path.Combine(productPath,fileName),FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
@@ -109,34 +109,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         }
 
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? ProductFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (ProductFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(ProductFromDb);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
-        {
-            Product? ProductFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (ProductFromDb == null)
-            {
-                return NotFound();
-
-            }
-            _unitOfWork.Product.Remove(ProductFromDb);
-            _unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully";
-            return RedirectToAction("Index");
-        }
+       
 
         #region API CALLS
 
@@ -147,6 +120,30 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return Json(new { data = objProductList });
         }
 
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var productToBeDeleted = _unitOfWork.Product.Get(u => u.Id == id);
+            if (productToBeDeleted == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            var oldImagePath =
+                           Path.Combine(_webHostEnvironment.WebRootPath,
+                           productToBeDeleted.ImageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _unitOfWork.Product.Remove(productToBeDeleted);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Delete Successful" });
+        }
         #endregion
+
     }
 }
