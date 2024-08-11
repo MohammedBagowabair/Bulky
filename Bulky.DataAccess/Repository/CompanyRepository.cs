@@ -18,7 +18,7 @@ namespace Bulky.DataAccess.Repository
         }
         public void Update(Company obj)
         {
-            throw new NotImplementedException();
+            _db.Companies.Update(obj);
         }
     }
 }
