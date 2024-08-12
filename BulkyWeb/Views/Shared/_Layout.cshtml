@@ -68,6 +68,11 @@
                                 </ul>
                             </li>
                        @*  } *@
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                <i class="bi bi-cart"></i> &nbsp; (0)
+                            </a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -83,8 +88,8 @@
     </div>
 
     <footer class="border-top footer bg-primary">
-        <div class="container text-center " >
-            Made With <i class="bi bi-heart-fill"></i> By Mr.Bagowabair
+        <div class="container text-center"  >
+            <span style="color:gray"> Made With <i class="bi bi-heart-fill"></i> By Mr.Bagowabair</span>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
